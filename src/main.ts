@@ -279,9 +279,9 @@ function finishLevel() {
   speak(def.sound);
   buildLevelBar();
   if (completed.size >= ANIMALS.length) {
-    setTimeout(showFinishOverlay, 3500);
+    setTimeout(showFinishOverlay, 5000);
   } else {
-    setTimeout(() => loadLevel(levelIdx + 1), 3500);
+    setTimeout(() => loadLevel(levelIdx + 1), 5000);
   }
 }
 

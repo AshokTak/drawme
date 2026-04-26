@@ -91,6 +91,36 @@ function loadLevel(idx: number, animate = true) {
   buildLevelBar();
 }
 
+function drawCoverage(pts: Point[], cov: boolean[]) {
+  ctx.save();
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.strokeStyle = "#58a700"; ctx.lineWidth = 44;
+  drawCoverageRuns(pts, cov);
+  ctx.strokeStyle = DUO_GREEN; ctx.lineWidth = 36;
+  drawCoverageRuns(pts, cov);
+  ctx.restore();
+}
+
+function drawCoverageRuns(pts: Point[], cov: boolean[]) {
+  let i = 0;
+  while (i < pts.length) {
+    if (!cov[i]) { i++; continue; }
+    const start = i;
+    while (i < pts.length && cov[i]) i++;
+    const end = i - 1;
+    if (end === start) {
+      ctx.beginPath();
+      ctx.arc(pts[start].x, pts[start].y, 18, 0, Math.PI * 2);
+      ctx.fillStyle = ctx.strokeStyle as string; ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(pts[start].x, pts[start].y);
+      for (let k = start + 1; k <= end; k++) ctx.lineTo(pts[k].x, pts[k].y);
+      ctx.stroke();
+    }
+  }
+}
+
 function drawArrow(a: Point, b: Point, color: string) {
   const angle = Math.atan2(b.y - a.y, b.x - a.x);
   const ax = a.x + Math.cos(angle) * 38;
@@ -162,15 +192,7 @@ function draw() {
       ctx.restore();
 
       if (isCurrent) {
-        // coverage dots
-        pts.forEach((pt, i) => {
-          if (covered[si][i]) {
-            ctx.fillStyle = "#58a700";
-            ctx.beginPath(); ctx.arc(pt.x, pt.y, 22, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = DUO_GREEN;
-            ctx.beginPath(); ctx.arc(pt.x, pt.y, 18, 0, Math.PI * 2); ctx.fill();
-          }
-        });
+        drawCoverage(pts, covered[si]);
         // start marker + arrow
         const a = pts[0], b = pts[Math.min(8, pts.length - 1)];
         drawArrow(a, b, "#1cb0f6");

@@ -63,6 +63,16 @@ button.secondary { background: #fff; color: var(--blue);
   border: 2px solid #e5e5e5; box-shadow: 0 4px 0 #e5e5e5; }
 button.secondary:active { box-shadow: 0 2px 0 #e5e5e5; }
 
+.more-games {
+  margin: 16px 0 8px; text-align: center; color: #777;
+  font-size: 14px; font-weight: 700;
+}
+.more-games a {
+  color: var(--blue); text-decoration: none;
+  border-bottom: 2px solid var(--blue);
+  padding-bottom: 1px;
+}
+.more-games a:hover { color: var(--blue-shadow); border-color: var(--blue-shadow); }
 .celebrate { animation: pop .55s ease; display: inline-block; }
 @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.15) rotate(-2deg); }
   70% { transform: scale(1.08) rotate(2deg); } 100% { transform: scale(1); } }

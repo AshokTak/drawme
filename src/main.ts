@@ -278,7 +278,25 @@ function finishLevel() {
   beep(880); setTimeout(() => beep(1100), 150); setTimeout(() => beep(1320), 300);
   speak(def.sound);
   buildLevelBar();
-  setTimeout(() => loadLevel(levelIdx + 1), 3500);
+  if (completed.size >= ANIMALS.length) {
+    setTimeout(showFinishOverlay, 3500);
+  } else {
+    setTimeout(() => loadLevel(levelIdx + 1), 3500);
+  }
+}
+
+const overlay = document.getElementById("finishOverlay")!;
+(document.getElementById("overlayAgain") as HTMLButtonElement).addEventListener("click", () => {
+  completed.clear();
+  overlay.classList.add("hidden");
+  loadLevel(0);
+});
+(document.getElementById("overlayMore") as HTMLButtonElement).addEventListener("click", () => {
+  location.href = "/kid-games/";
+});
+function showFinishOverlay() {
+  overlay.classList.remove("hidden");
+  speak("Yay! You drew all the animals!");
 }
 
 let speechReady = false;
